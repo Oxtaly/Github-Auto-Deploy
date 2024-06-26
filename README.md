@@ -7,9 +7,17 @@ git clone https://github.com/Oxtaly/Github-Auto-Deploy.git
 ```
 
 ## Args
---quiet // sets the web server to quiet mode, disables logging every event
--h\[host\] `-h127.0.0.1` | -host=\[host\] `-host=127.0.0.1` // sets the host for the web server, overrides config.host and .env HOST, defaults to null (bun default, 0.0.0.0)
--p\[port\] `-p3000`      | -port=\[port\] `-port=3000` // sets the port for the web server, overrides config.port and .env PORT, defaults to 3000
+
+Example: `bun index.js --quiet -p80 -h0.0.0.0`
+
+```sh
+# sets the web server to quiet mode, disables logging every event
+--quiet 
+# Hostname for the web server, overrides config.host and .env HOST, defaults to null (bun default, 0.0.0.0)
+-h[host] > -h127.0.0.1 | -host=[host] > -host=127.0.0.1
+# Port for the web server, overrides config.port and .env PORT, defaults to 3000
+-p[port] > -p3000      | -port=[port] > -port=3000 
+```
 
 ## Configuraton:
 Copy config.json.example and remove/modify it to fit your needs
