@@ -1,0 +1,23 @@
+{
+	// [optional] Port used by the web server, overriden by the arg -port=[port], falling back on process.env.PORT property if abscent, defaulting on 3000
+	"port": 3000, 
+	// [optional] Host used by web server, overriden by the arg -host=[host], falling back on process.env.HOST property if abscent, defaulting on null (Bun default, 0.0.0.0)
+	"host": 0.0.0.0, 
+	"repositories": 
+	[
+		{
+			// [required] url for the repo that'll update .path when a push is received
+			"url": "https://github.com/MyUser/MyRepo/",
+			// [required] path to the local repo that'll be updated when a push is received from the repo url above
+			"path": "/path/to/the/local/repo/",
+			// [optional] branch name to respond to pushes to (if ommitted, will accept any branch push)
+			"branch": "main",
+			// [optional] secret used aganinst a sha-256 hash to validate the update comes from an authorized source (leave empty to accept any well formed request)
+			"secret": "myVerySecretSecret",
+			// [optional] bash command executed cd'ed in .path to update the local repo, default (if property absent) command below
+			"update":"git fetch --all && git checkout --force \"origin/main\"",
+			// [required] bash command executed after the update command to re-deploy the .path repo, example that would work for this repo & docker:
+			"deploy":"docker stop github-auto-deploy && bun install && docker start github-auto-deploy"
+		}
+	]
+}
