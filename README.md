@@ -36,16 +36,18 @@ Copy config.json.example and remove/modify it to fit your needs
     // [optional] secret used aganinst a sha-256 hash to validate the update comes from an authorized source (leave empty to accept any request) [Recommended!]
     "secret": "myVerySecretSecret",
     // [optional] bash command executed cd'ed in .path to update the local repo, default (if property absent) command below
-    "update":"git fetch --all && git checkout --force \"origin/main\"",
+    // /!\ make sure to put your own and replace /usr/bin/git if you have git in a different installation!
+    "update":"/usr/bin/git fetch --all && /usr/bin/git checkout --force \"origin/main\"",
     // [required] bash command executed after the update command to re-deploy the .path repo, example that would work for this repo using systemd on a ubuntu linux system:
-    "deploy":"bun install && service github-auto-deploy restart"
+    "deploy":"/root/.bun/bin/bun install && service github-auto-deploy restart"
 }
 ```
 - Make a webhook on your github repo, you can see how over at https://docs.github.com/en/webhooks, and put the url of this server as the webhook url
 - You should now be all good to go! You can now just run the server using `bun index.js` with any arguments you want to use (see Args), or deamonize it using systemd on linux using the instructions below:
 
 ## Deamonize it:
-- On linux, make a file named `github-auto-deploy.service` using the configuration below at the path `/lib/systemd/system`
+- On linux, make a file named `github-auto-deploy.service` using the configuration below at the path `/lib/systemd/system`.
+- If you deamonize it, make sure the deploy and other commands have access to the same PATH as you, or use direct paths to the command executables such as `/usr/bin/git` *(you can use `which [command]` to find out it's direct path)* 
 ```ini
 # See https://bun.sh/guides/ecosystem/systemd for ref
 

@@ -244,7 +244,7 @@ Bun.serve({
         reposWithValidSignature.concat(reposWithoutSecrets).forEach((watchedRepo) => {
             if(watchedRepo.branch && watchedRepo.branch !== reqJSON.ref) 
                 return
-            const updateCommand = watchedRepo.update ? watchedRepo.update : `git fetch --all && git checkout --force ${watchedRepo.branch ? watchedRepo.branch : `"origin/main"`}`
+            const updateCommand = watchedRepo.update ? watchedRepo.update : `/usr/bin/git fetch --all && /usr/bin/git checkout --force ${watchedRepo.branch ? watchedRepo.branch : `"origin/main"`}`
             const fullUpdateCommand = `cd "${watchedRepo.path.replace(/((?:\\\\)?")/g, `\\$1`)}" && ${updateCommand}`
             if(!quiet) console.log(`Executing update command! (${fullUpdateCommand})`)
             exec(`${fullUpdateCommand}`, (error, stdout, stderr) => {
