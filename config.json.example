@@ -10,14 +10,15 @@
 			"url": "https://github.com/MyUser/MyRepo/",
 			// [required] path to the local repo that'll be updated when a push is received from the repo url above
 			"path": "/path/to/the/local/repo/",
-			// [optional] branch name to respond to pushes to (if ommitted, will accept any branch push)
-			"branch": "main",
-			// [optional] secret used aganinst a sha-256 hash to validate the update comes from an authorized source (leave empty to accept any well formed request)
+			// [optional] branch name to respond to pushes to (if ommitted, will accept any branch push) [Not recommended]
+			"branch": "refs/heads/main",
+			// [optional] secret used aganinst a sha-256 hash to validate the update comes from an authorized source (leave empty to accept any request) [Recommended!]
 			"secret": "myVerySecretSecret",
 			// [optional] bash command executed cd'ed in .path to update the local repo, default (if property absent) command below
-			"update":"git fetch --all && git checkout --force \"origin/main\"",
-			// [required] bash command executed after the update command to re-deploy the .path repo, example that would work for this repo & docker:
-			"deploy":"docker stop github-auto-deploy && bun install && docker start github-auto-deploy"
+			// /!\ make sure to put your own and replace /usr/bin/git if you have git in a different installation!
+			"update":"/usr/bin/git fetch --all && /usr/bin/git checkout --force \"origin/main\"",
+			// [required] bash command executed after the update command to re-deploy the .path repo, example that would work for this repo using systemd on a ubuntu linux system:
+			"deploy":"/root/.bun/bin/bun install && service github-auto-deploy restart"
 		}
 	]
 }
